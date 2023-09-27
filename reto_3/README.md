@@ -17,6 +17,16 @@ The project was created to practice the deployment of a Monolithic application w
 
 The information and parameters of the project criteria are in the teacher's domain. In view of this situation, it remains to say that in this project all the considerations required by the teacher are completely fulfilled.
 
+## Tech Diagram
+![Arquitectura](https://github.com/Jguerra47/jsguerrah-st0263/assets/63611163/bc4a9243-57fb-4c1b-a701-b1726c95a19b)
+
+## Development enviroment
+
+- compose: 3 3.1 y 3.8
+- postgres: 14.1-alpine
+- drupal: latest
+- nginx: latest
+
 ## Development
 ### DB Config
 The following codeblock is the one used to configurate the docker instance in the db machine. 
@@ -148,3 +158,6 @@ ports:
 In this file, you are defining a bind mount again, in which you state that the container should use the file you previously created as the reverse proxy configuration.
 Once this is done, you bring up your container and go to AWS to create an Elastic IP. You will link this IP to the machine where you created the NGINX container.
 As a final test, what you need to do is take that Elastic IP and enter it into your web browser. The expected result is that you can successfully view your Drupal page. Internally, the container is already forwarding traffic to your Drupal instances as it sees fit.
+
+## References
+[NFS configuration](https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nfs-mount-on-ubuntu-20-04#step-7-mounting-the-remote-nfs-directories-at-boot)
