@@ -109,7 +109,7 @@ restart: always
 
 At this point, both instances should be connected, so you should be able to see that the changes in one of them also happen in the other instance
 
-### NGINE X Configuration
+### NGINX Configuration
 With two instances having the same information, we need to set up a reverse proxy that redirects traffic to these two machines.
 To do this, you will create an NGINX configuration file named nginx.conf.
 Inside it, you will put the following
