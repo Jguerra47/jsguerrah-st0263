@@ -58,8 +58,9 @@ class FileServices:
             return '', b'', e
 
 def validate_path_traversal(name: str):
-    ruta_absoluta = os.path.abspath(os.path.join(ASSETS_DIR, name))
-    if not ruta_absoluta.startswith(ASSETS_DIR):
+    abs_path = os.path.abspath(os.path.join(ASSETS_DIR, name))
+    authorized_path = os.path.abspath(ASSETS_DIR)
+    if not abs_path.startswith(authorized_path):
         raise PermissionError
 
 Service = FileServices()
