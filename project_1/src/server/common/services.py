@@ -24,20 +24,24 @@ class FileServices:
         return collection
 
     def findFiles(self, search: str) -> list:
-        collection = []
-        for filename in glob.glob(f"{ASSETS_DIR}/{search}"):
-            file_info = {}
+        try:
+            validate_path_traversal(search)
+            collection = []
+            for filename in glob.glob(f"{ASSETS_DIR}/{search}"):
+                file_info = {}
 
-            size = os.path.getsize(filename)
-            time = os.path.getmtime(filename)
-            timestamp = datetime.datetime.fromtimestamp(time)
-            formatted_date = timestamp.strftime("%Y-%m-%d %H:%M:%S")
+                size = os.path.getsize(filename)
+                time = os.path.getmtime(filename)
+                timestamp = datetime.datetime.fromtimestamp(time)
+                formatted_date = timestamp.strftime("%Y-%m-%d %H:%M:%S")
 
-            file_info["name"] = os.path.basename(filename)
-            file_info["size"] = size
-            file_info["timestamp"] = formatted_date
-            collection.append(file_info)
-        return collection
+                file_info["name"] = os.path.basename(filename)
+                file_info["size"] = size
+                file_info["timestamp"] = formatted_date
+                collection.append(file_info)
+            return collection, None
+        except (PermissionError, Exception) as e:
+            return [], e
 
     def putFile(self, name: str, data: bytes) -> tuple:
         try:

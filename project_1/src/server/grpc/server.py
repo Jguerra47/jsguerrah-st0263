@@ -28,7 +28,14 @@ class FileService(FileServices_pb2_grpc.FileServiceServicer):
         logging.info("FIND request was received: %s", str(request))
         response = []
 
-        for f in Service.findFiles(request.name):
+        data, err = Service.findFiles(request.name)
+        if type(err) is PermissionError:
+            context.set_code(grpc.StatusCode.PERMISSION_DENIED)
+            context.set_details('You are trying to do path traversal. Denied')
+            logging.warning("Path traversal: %s", request.name)
+            return FileServicesStub.FileList(metadata=response)
+
+        for f in data:
             fileInfo = FileServicesStub.FileMetadata(name=f['name'],
                                                 size=f['size'],
                                                 timestamp=f['timestamp'])
