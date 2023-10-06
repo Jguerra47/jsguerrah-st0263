@@ -1,4 +1,5 @@
 from concurrent import futures
+import os
 import grpc
 import logging
 import protobufs.python.FileServices_pb2 as FileServicesStub
@@ -37,12 +38,17 @@ class FileService(FileServices_pb2_grpc.FileServiceServicer):
 
     def GetFile(self, request, context):
         logging.info("GET request was received: %s", str(request))
+
         name, data, e = Service.getFile(request.name)
 
-        if e is FileNotFoundError:
+        if type(e) is FileNotFoundError:
             context.set_code(grpc.StatusCode.NOT_FOUND)
             context.set_details('File not found')
             logging.warning("File not found: %s", request.name)
+        if type(e) is PermissionError:
+            context.set_code(grpc.StatusCode.PERMISSION_DENIED)
+            context.set_details('You are trying to do path traversal. Denied')
+            logging.warning("Path traversal: %s", request.name)
         elif e:
             context.set_code(grpc.StatusCode.INTERNAL)
             context.set_details(str(e))
@@ -67,6 +73,7 @@ def serve():
     print("DataNode is running... ")
     server.start()
     server.wait_for_termination()
+
 
 def run():
     serve()

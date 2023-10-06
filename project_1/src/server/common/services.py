@@ -48,11 +48,18 @@ class FileServices:
             return 500, 'Internal Server Error', e
 
     def getFile(self, name: str) -> tuple:
+
         try:
+            validate_path_traversal(name)
             with open(os.path.join(ASSETS_DIR, name), 'rb') as f:
                 data = f.read()
             return name, data, None
-        except Exception as e:
+        except (PermissionError, Exception) as e:
             return '', b'', e
+
+def validate_path_traversal(name: str):
+    ruta_absoluta = os.path.abspath(os.path.join(ASSETS_DIR, name))
+    if not ruta_absoluta.startswith(ASSETS_DIR):
+        raise PermissionError
 
 Service = FileServices()
