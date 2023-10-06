@@ -1,15 +1,18 @@
 from concurrent import futures
 import grpc
+import logging
 import protobufs.python.FileServices_pb2 as FileServicesStub
 import protobufs.python.FileServices_pb2_grpc as FileServices_pb2_grpc
 from common.services import Service
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 HOST = '[::]:50051'
 
 class FileService(FileServices_pb2_grpc.FileServiceServicer):
 
     def ListFiles(self, request, context):
-        print("LIST request was received: " + str(request))
+        logging.info("LIST request was received: %s", str(request))
         response = []
 
         for f in Service.listFiles():
@@ -21,7 +24,7 @@ class FileService(FileServices_pb2_grpc.FileServiceServicer):
         return FileServicesStub.FileList(metadata=response)
 
     def FindFile(self, request, context):
-        print("FIND request was received: " + str(request))
+        logging.info("FIND request was received: %s", str(request))
         response = []
 
         for f in Service.findFiles(request.name):
@@ -33,24 +36,27 @@ class FileService(FileServices_pb2_grpc.FileServiceServicer):
         return FileServicesStub.FileList(metadata=response)
 
     def GetFile(self, request, context):
-        print("GET request was received: " + str(request))
+        logging.info("GET request was received: %s", str(request))
         name, data, e = Service.getFile(request.name)
 
         if e is FileNotFoundError:
             context.set_code(grpc.StatusCode.NOT_FOUND)
             context.set_details('File not found')
+            logging.warning("File not found: %s", request.name)
         elif e:
             context.set_code(grpc.StatusCode.INTERNAL)
             context.set_details(str(e))
+            logging.error("Error getting file: %s. Error: %s", request.name, str(e))
 
         return FileServicesStub.FileContent(name=name, data=data)
 
     def PutFile(self, request, context):
-        print("PUT request was received: " + str(request))
+        logging.info("PUT request was received: %s", str(request))
         code, message, e = Service.putFile(request.name, request.bytes)
         if e:
             context.set_code(grpc.StatusCode.INTERNAL)
             context.set_details(str(e))
+            logging.error("Error putting file: %s. Error: %s", request.name, str(e))
         return FileServicesStub.OperationStatus(code=code, message=message)
 
 def serve():
