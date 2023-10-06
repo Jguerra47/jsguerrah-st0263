@@ -12,5 +12,6 @@ parser.add_argument('component',
 args = parser.parse_args()
 
 if args.component == 'datanode':
+
     from server.grpc import server
     server.run()

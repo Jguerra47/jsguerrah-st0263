@@ -4,6 +4,7 @@ import grpc
 import logging
 import protobufs.python.FileServices_pb2 as FileServicesStub
 import protobufs.python.FileServices_pb2_grpc as FileServices_pb2_grpc
+from IndexClient import IndexClient
 from common.services import Service
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -11,6 +12,9 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 HOST = '[::]:50051'
 
 class FileService(FileServices_pb2_grpc.FileServiceServicer):
+
+    def __init__(self):
+        self.indexClient = IndexClient()
 
     def ListFiles(self, request, context):
         logging.info("LIST request was received: %s", str(request))
@@ -70,6 +74,7 @@ class FileService(FileServices_pb2_grpc.FileServiceServicer):
             context.set_code(grpc.StatusCode.INTERNAL)
             context.set_details(str(e))
             logging.error("Error putting file: %s. Error: %s", request.name, str(e))
+        self.indexClient.addToIndex(path=request.name)
         return FileServicesStub.OperationStatus(code=code, message=message)
 
 def serve():
@@ -78,6 +83,7 @@ def serve():
         FileService(), server)
     server.add_insecure_port(HOST)
     print("DataNode is running... ")
+    indexClient = IndexClient().bootIndex()
     server.start()
     server.wait_for_termination()
 
