@@ -52,7 +52,7 @@ class FileService(FileServices_pb2_grpc.FileServiceServicer):
 
     def PutFile(self, request, context):
         logging.info("PUT request was received: %s", str(request))
-        code, message, e = Service.putFile(request.name, request.bytes)
+        code, message, e = Service.putFile(request.name, request.data)
         if e:
             context.set_code(grpc.StatusCode.INTERNAL)
             context.set_details(str(e))
