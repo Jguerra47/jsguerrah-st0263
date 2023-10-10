@@ -3,7 +3,7 @@ import protobufs.python.Add2Index_pb2 as Add2Index_pb2Stub
 import protobufs.python.Add2Index_pb2_grpc as Add2Index_pb2_grpc
 import os
 import configparser
-import netifaces as ni
+import urllib.request
 
 config = configparser.ConfigParser()
 config.read(os.path.join(os.path.dirname(__file__), 'config', '.config'))
@@ -19,27 +19,27 @@ class IndexClient:
         self.stub = Add2Index_pb2_grpc.Add2IndexStub(self.channel)
 
     def bootIndex(self):
-        ip = ni.ifaddresses('eth0')[ni.AF_INET][0]['addr']
+        ip = urllib.request.urlopen('https://api.ipify.org').read().decode('utf8')
         print("Booting index, following paths are at local asset:")
         print("ip: ",ip)
         for path in os.listdir(ASSETS_DIR):
             print("path: ", path)
             for i in range(RETRIES):
                 request = Add2Index_pb2Stub.add2IndexRequest(dataNodeIP=ip,path2Add=path)
-                statusCode = self.stub.add_2_index(request)['statusCode']
+                statusCode = self.stub.add_2_index(request).statusCode
                 if statusCode == 200:
                     break
         return statusCode
 
     def addToIndex(self, path):
-        ip = ni.ifaddresses('eth0')[ni.AF_INET][0]['addr']
+        ip = urllib.request.urlopen('https://api.ipify.org').read().decode('utf8')
         print("forwarding path to namenode, following path will be forwarded:")
         print("ip: ",ip)
         print("path: ", path)
 
         for i in range(RETRIES):
                 request = Add2Index_pb2Stub.add2IndexRequest(dataNodeIP=ip,path2Add=path)
-                statusCode = self.stub.add_2_index(request)['statusCode']
+                statusCode = self.stub.add_2_index(request).statusCode
                 if statusCode == 200:
                     break
         return statusCode
