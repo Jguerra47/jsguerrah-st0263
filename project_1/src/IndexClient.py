@@ -11,7 +11,7 @@ config.read(os.path.join(os.path.dirname(__file__), 'config', '.config'))
 SERVER_ADDRESS = os.getenv('GRPC_HOST')
 
 ASSETS_DIR = config['PATHS']['ASSETS_DIR']
-RETRIES = config['RETRY']['RETRIES_ADD_IP']
+RETRIES = int(config['RETRY']['RETRIES_ADD_IP'])
 
 class IndexClient:
     def __init__(self):
