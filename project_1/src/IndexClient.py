@@ -1,5 +1,4 @@
 import grpc
-import sys
 import protobufs.python.Add2Index_pb2 as Add2Index_pb2Stub
 import protobufs.python.Add2Index_pb2_grpc as Add2Index_pb2_grpc
 import os
@@ -9,13 +8,14 @@ import netifaces as ni
 config = configparser.ConfigParser()
 config.read(os.path.join(os.path.dirname(__file__), 'config', '.config'))
 
-SERVER_ADDRESS = 'localhost:50051'
+SERVER_ADDRESS = os.getenv('GRPC_HOST')
+
 ASSETS_DIR = config['PATHS']['ASSETS_DIR']
 RETRIES = config['RETRY']['RETRIES_ADD_IP']
 
 class IndexClient:
-    def __init__(self, address):
-        self.channel = grpc.insecure_channel(address)
+    def __init__(self):
+        self.channel = grpc.insecure_channel(SERVER_ADDRESS)
         self.stub = Add2Index_pb2_grpc.Add2IndexStub(self.channel)
 
     def bootIndex(self):
