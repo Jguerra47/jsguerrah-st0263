@@ -26,7 +26,7 @@ class IndexClient:
             print("path: ", path)
             for i in range(RETRIES):
                 request = Add2Index_pb2Stub.add2IndexRequest(dataNodeIP=ip,path2Add=path)
-                statusCode = self.stub.add_2_index(request)['statusCode']
+                statusCode = self.stub.add_2_index(request).statusCode
                 if statusCode == 200:
                     break
         return statusCode
@@ -39,7 +39,7 @@ class IndexClient:
 
         for i in range(RETRIES):
                 request = Add2Index_pb2Stub.add2IndexRequest(dataNodeIP=ip,path2Add=path)
-                statusCode = self.stub.add_2_index(request)['statusCode']
+                statusCode = self.stub.add_2_index(request).statusCode
                 if statusCode == 200:
                     break
         return statusCode
