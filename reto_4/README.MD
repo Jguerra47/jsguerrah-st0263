@@ -5,8 +5,8 @@
 
 | Information  |                   |
 |--------------|      :-----:      |
-| Name    | Sebastian Guerra - Juan David Prieto - Juan David Echeverri - Jacobo Rave Londoño |
-| Email   | jsguerrah@eafit.edu.co - jdprietom@eafit.edu.co - jdecheverv@eafit.edu.co - jravel@eafit.edu.co |
+| Name    | Sebastian Guerra - Juan David Prieto - Juan David Echeverri - Santiago Puerta |
+| Email   | jsguerrah@eafit.edu.co - jdprietom@eafit.edu.co - jdecheverv@eafit.edu.co - spuertaf@eafit.edu.co |
 | Teacher | Edwin Montoya          |
 | Course  | ST0263                 |
 
