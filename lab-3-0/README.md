@@ -84,15 +84,16 @@ We will have to create an AWS S3 bucket to store the notebooks that we will crea
       }
     ]
     ```
+    
     Like this:
    
     <img width="622" alt="image" src="https://github.com/Jguerra47/jsguerrah-st0263/assets/68879896/ed6fcc8b-72e4-4ab2-a106-7fb56f403441">
     
-8. Go to the section **Security configuration and EC2 key pair** and in the option **Amazon EC2 key pair for SSH to the cluster**. Now, choose the vockey used for labs (or you could select a custom one).
+7. Go to the section **Security configuration and EC2 key pair** and in the option **Amazon EC2 key pair for SSH to the cluster**. Now, choose the vockey used for labs (or you could select a custom one).
     
     <img width="617" alt="image" src="https://github.com/Jguerra47/jsguerrah-st0263/assets/68879896/ae4432c6-40cd-4991-8113-ca4b1c6970db">
 
-9. In the section '**Identity and Access Management (IAM) roles** select the next options:
+8. In the section '**Identity and Access Management (IAM) roles** select the next options:
 
     - **Amazon EMR Service Role**: EMR_DefaultRole
     - **EC2 Instance Profile for Amazon EMR**: EMR_EC2_DefaultRole
@@ -100,7 +101,7 @@ We will have to create an AWS S3 bucket to store the notebooks that we will crea
 
     <img width="794" alt="image" src="https://github.com/Jguerra47/jsguerrah-st0263/assets/68879896/468e587b-a997-4906-9352-68b024984050">
     
-10. Finally, click on `Create cluster`.
+9. Finally, click on `Create cluster`.
     
     <img width="262" alt="image" src="https://github.com/Jguerra47/jsguerrah-st0263/assets/68879896/8ab20a33-8614-414e-bc67-ae337bae4a0f">
 
@@ -136,11 +137,11 @@ Reminder: The following steps should only be performed once, each time a cluster
     
     <img width="1392" alt="image" src="https://github.com/Jguerra47/jsguerrah-st0263/assets/68879896/290e6513-6f98-4d0e-bf67-525f8afcb7ce">
 
-9. Click on `Edit inbound rules`.
+7. Click on `Edit inbound rules`.
     
     <img width="1390" alt="image" src="https://github.com/Jguerra47/jsguerrah-st0263/assets/68879896/81e337ab-bd03-401a-a353-c416b4798035">
 
-10. For each of the ports shown in the steps 4, perform the following:
+8. For each of the ports shown in the steps 4, perform the following:
     1. Click on `Add rule`:
     3. Select the `Custom TCP` option (if needed, or you could search the option), enter the port number and select the 'Anywhere-IPv4' option:
     4. Type the port.
