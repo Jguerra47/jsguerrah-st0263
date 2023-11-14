@@ -107,10 +107,11 @@ aws s3 ls s3://jsguerrahs3
     hdfs dfs -ls /user/hadoop/datasets
     ```
     
-7. Put the contents of a local to the directory '/user/hadoop/datasets/gutenberg-small' using the following command. For this purpouse you could clone the repository that has example datasets
+4. Put the contents of a local to the directory '/user/hadoop/datasets/gutenberg-small' using the following command. For this purpouse you could clone the repository that has example datasets
     
     ```bash
     hdfs dfs -put <YOUR_LOCAL_FOLDER> /user/hadoop/datasets/gutenberg-small/
+    ```
 
 ✅ You are done! You can now manage files to HDFS from the EMR cluster using the terminal.
 
@@ -157,7 +158,7 @@ aws s3 ls s3://jsguerrahs3
 7. Verify the file is accesible through other ways like AWS CLI. Execute the next command to list the file over your bucket:
 
     ```bash
-    aws s3 ls s3://jsguerrahs3
+    aws s3 ls s3://<YOUR_BUCKET_NAME>
     ```
 
     Should show the file you uploaded before.
